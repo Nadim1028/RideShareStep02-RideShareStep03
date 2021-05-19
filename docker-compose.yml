@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  RatingService:
+    build: ./RatingService/
+    restart: always
+    depends_on:
+      - mysql
+
+  CommunicationService:
+    build: ./CommunicationService/
+    ports:
+      - 8080:8080
+    restart: always
+
+  RidesharingService:
+    build: ./RidesharingService/
+    restart: always
+    depends_on:
+      - communication
+
+  nginx:
+    build: ./nginx/
+    ports:
+      - 10000:80
+    depends_on:
+      - RatingService
+      - RidesharingService
+
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
