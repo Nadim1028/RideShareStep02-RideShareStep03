@@ -28,11 +28,11 @@ services:
       - RidesharingService
 
   mongodb:
-    image: mongo
+    image: mysql:5.7
     ports:
-      - 27017:27017
+      - 3306:3306
     volumes:
-      - mongodb_data_container:/data/db
+      - my-db:/var/lib/mysql
 
 volumes:
-  mongodb_data_container:
+    my-db:
