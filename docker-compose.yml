@@ -1,38 +1,43 @@
 version: '3'
 
 services:
-  RatingService:
-    build: ./RatingService/
+  ratingservice:
+    build: ./MyRatingService/
     restart: always
     depends_on:
       - mysql
 
-  CommunicationService:
+  communicationservice:
     build: ./CommunicationService/
     ports:
-      - 8080:8080
+      - 8085:8020
     restart: always
 
-  RidesharingService:
+  ridesharingservice:
     build: ./RidesharingService/
     restart: always
     depends_on:
-      - communication
+      - communicationservice
 
   nginx:
     build: ./nginx/
     ports:
-      - 10000:80
+      - 8080:80
     depends_on:
-      - RatingService
-      - RidesharingService
+      - ratingservice
+      - ridesharingservice
 
-  mongodb:
-    image: mysql:5.7
-    ports:
-      - 3306:3306
+  mysql:
+    container_name: mysql_db
+    image: mysql
+    command: mysqld --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_DATABASE=Rideshare
+      - MYSQL_USER=admin
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+
     volumes:
-      - my-db:/var/lib/mysql
+      - ./Database/mysqldb:/var/lib/mysql
+      - ./Database/initdb:/docker-entrypoint-initdb.d/:ro
 
-volumes:
-    my-db:

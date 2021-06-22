@@ -10,7 +10,7 @@ socket = SocketIO(app)
 @app.route('/rating', methods=['POST'])
 def rating():
     print('Rating Server Ok')
-    connection = mysql.connector.connect(user='root',password='root', host='127.0.0.1', database='Rideshare')
+    connection = mysql.connector.connect(user='root',password='root', host='mysql', database='Rideshare')
     data = request.json
     cursor = connection.cursor()
     query = "INSERT INTO driver_rating (id,rider_id,rider_name,driver_id,driver_name,rating) VALUES (%s,%s,%s,%s,%s,%s)"
@@ -27,4 +27,5 @@ def rating():
         return flask.Response(status=400)
 
 if __name__ == '__main__':
-    app.run(port= 8015)
+    app.run(host='0.0.0.0', port=8080)
+    #app.run(port= 8080)

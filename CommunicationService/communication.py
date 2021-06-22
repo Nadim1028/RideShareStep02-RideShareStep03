@@ -18,6 +18,9 @@ def send_best_pair():
     return 'message sent'
 
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
+#
+#     socket.run(app, port=8080)
 
-    socket.run(app, port=8014)
+if __name__ == '__main__':
+    socket.run(app, host="0.0.0.0", port=8020)

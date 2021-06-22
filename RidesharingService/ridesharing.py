@@ -43,7 +43,7 @@ def make_pair():
             "fair": round(distance_min*2, 0)
         }
         print(data)
-        requests.post("http://127.0.0.1:8014/comm", json=data)
+        requests.post("http://communicationservice:8020/comm", json=data)
 
 
 @app.route('/rider', methods=['POST'])
@@ -62,6 +62,13 @@ def add_driver():
     return flask.Response(status=201)
 
 if __name__ == '__main__':
-    scheduler.add_job(id='task', func= make_pair, trigger='interval', seconds=3)
+    scheduler.add_job(id='task', func=make_pair, trigger='interval', seconds=5)
     scheduler.start()
-    app.run(port= 8013)
+    app.run(host='0.0.0.0', port=8080)
+
+# if __name__ == '__main__':
+#     scheduler.add_job(id='task', func= make_pair, trigger='interval', seconds=3)
+#     scheduler.start()
+#     app.run(port= 8013)
+
+
